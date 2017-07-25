@@ -1,13 +1,10 @@
 ---
 
-- name: installing kibana rpm package
-  rpm_key:
-    url: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
-    state: present
-#  shell: "wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm"
+- name: Downloading kibana package ...
+  shell: "wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm"
 
 
-- name: rpm command for kibana....
+- name: installing kibana ...
   command: rpm -ivh kibana-5.1.1-x86_64.rpm
 
 - name: Adding kibana configuration file ...
@@ -16,14 +13,14 @@
 - name: Start service kibana
   service: name=kibana state=started enabled=yes
 
-- name: Installing kibana dependencies ...
+- name: Installing Nginx dependencies ...
   yum: name={{ item }} state=installed
   with_items:
       - epel-release
       - nginx
       - httpd-tools
 
-- name: Starting Apache server
+- name: Starting kibana
   service: name=kibana state=started
 
 - name: Adding nginx configuration file ...
