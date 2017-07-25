@@ -1,0 +1,69 @@
+---
+
+- name:  Add key for kibana
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch 
+    state: present
+#  shell: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"
+
+- name: Installing zabbix server dependencies ...
+  apt: name={{ item }} state=installed
+  with_items:
+      - apt-transport-https
+
+#- name: Save the repository
+#  command: echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
+
+#- name: Adding zabbix configuration file ...
+#  template: src=elastic-5.x.list.j2 dest=/etc/apt/sources.list.d/elastic-5.x.list
+- name: Add Logstash repository.
+  apt_repository:
+    repo: 'deb https://artifacts.elastic.co/packages/5.x/apt stable main'
+    state: present
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
+
+- name: Installing zabbix server dependencies ...
+  apt: name={{ item }} state=installed
+  with_items:
+      - kibana
+      - nginx
+      - apache2-utils
+
+
+- name: Starting Apache server
+  service: name=kibana state=started
+
+- name: Install passlib (required for writing htpasswd file).
+  yum:
+    name: python-passlib
+    state: present
+
+#- command: rm -rf /etc/nginx/sites-available/default 
+- name: Remove old files foo
+  file: path=/etc/nginx/sites-available/default state=absent
+
+- name: Create htpasswd file to restrict access to Kibana web interface.
+  htpasswd:
+    name: "{{ elk_kibana_username }}"
+    password: "{{ elk_kibana_password }}"
+#    name: admin
+#    password: admin
+    path: /etc/nginx/htpasswd.users
+    # Assuming Debian 'www-data' web user for nginx.
+  
+#  notify: restart nginx
+
+#- name: Adding zabbix configuration file ...
+#  template: src=default.j2 dest=/etc/nginx/sites-available/default
+
+- name: Starting Apache server
+  service: name=kibana state=started
+
+
+- name: Starting Apache server
+  service: name=nginx state=started
+

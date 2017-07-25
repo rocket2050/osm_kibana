@@ -1,0 +1,55 @@
+---
+
+- name: installing kibana rpm package
+  rpm_key:
+    url: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+    state: present
+#  shell: "wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm"
+
+
+- name: rpm command for kibana....
+  command: rpm -ivh kibana-5.1.1-x86_64.rpm
+
+- name: Adding kibana configuration file ...
+  template: src=kibana.yml.j2 dest=/etc/kibana/kibana.yml
+
+- name: Start service kibana
+  service: name=kibana state=started enabled=yes
+
+- name: Installing kibana dependencies ...
+  yum: name={{ item }} state=installed
+  with_items:
+      - epel-release
+      - nginx
+      - httpd-tools
+
+- name: Starting Apache server
+  service: name=kibana state=started
+
+- name: Adding nginx configuration file ...
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+
+- name: Adding nginx configuration file ...
+  template: src=kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf
+ 
+- name: Install passlib (required for writing htpasswd file).
+  yum:
+    name: python-passlib
+    state: present
+
+#- name: Remove old files foo
+#  file: path=/etc/nginx/sites-available/default state=absent
+
+- name: Create htpasswd file to restrict access to Kibana web interface.
+  htpasswd:
+    name: "{{ elk_kibana_username }}"
+    password: "{{ elk_kibana_password }}"
+    path: /etc/nginx/.kibana-user
+
+- name: Starting Apache server
+  service: name=kibana state=started
+
+
+- name: Starting Apache server
+  service: name=nginx state=started
+
