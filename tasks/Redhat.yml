@@ -6,6 +6,7 @@
 
 - name: installing kibana ...
   command: rpm -ivh kibana-5.1.1-x86_64.rpm
+  ignore_errors: yes
 
 - name: Adding kibana configuration file ...
   template: src=kibana.yml.j2 dest=/etc/kibana/kibana.yml
