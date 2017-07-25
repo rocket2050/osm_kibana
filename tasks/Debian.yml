@@ -38,11 +38,10 @@
   service: name=kibana state=started
 
 - name: Install passlib (required for writing htpasswd file).
-  yum:
+  apt:
     name: python-passlib
     state: present
 
-#- command: rm -rf /etc/nginx/sites-available/default 
 - name: Remove old files foo
   file: path=/etc/nginx/sites-available/default state=absent
 
@@ -50,15 +49,11 @@
   htpasswd:
     name: "{{ elk_kibana_username }}"
     password: "{{ elk_kibana_password }}"
-#    name: admin
-#    password: admin
     path: /etc/nginx/htpasswd.users
-    # Assuming Debian 'www-data' web user for nginx.
   
-#  notify: restart nginx
 
-#- name: Adding zabbix configuration file ...
-#  template: src=default.j2 dest=/etc/nginx/sites-available/default
+- name: Adding zabbix configuration file ...
+  template: src=default.j2 dest=/etc/nginx/sites-available/default
 
 - name: Starting Apache server
   service: name=kibana state=started

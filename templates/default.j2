@@ -1,7 +1,7 @@
 server {
     listen 80;
 
-    server_name {{ kibana_server_ip }};
+    server_name {{ Kibana_server_ip }};
 
     auth_basic "Restricted Access";
     auth_basic_user_file /etc/nginx/htpasswd.users;
