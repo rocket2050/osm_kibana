@@ -30,7 +30,7 @@
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 
 - name: Adding nginx configuration file ...
-  template: src=kibana.conf.j2 dest=/etc/nginx/conf.d/kibana.conf
+  template: src=default.j2 dest=/etc/nginx/conf.d/kibana.conf
  
 - name: Install passlib (required for writing htpasswd file).
   yum:
