@@ -17,8 +17,10 @@
   yum: name={{ item }} state=installed
   with_items:
       - epel-release
-      - nginx
       - httpd-tools
+
+- name: Installing Nginx dependencies ...
+  yum: name=nginx state=installed
 
 - name: Starting kibana
   service: name=kibana state=started
@@ -34,19 +36,16 @@
     name: python-passlib
     state: present
 
-#- name: Remove old files foo
-#  file: path=/etc/nginx/sites-available/default state=absent
-
 - name: Create htpasswd file to restrict access to Kibana web interface.
   htpasswd:
     name: "{{ elk_kibana_username }}"
     password: "{{ elk_kibana_password }}"
     path: /etc/nginx/.kibana-user
 
-- name: Starting Apache server
+- name: Starting Kibana service
   service: name=kibana state=started
 
 
-- name: Starting Apache server
+- name: Starting Nginx server
   service: name=nginx state=started
 
