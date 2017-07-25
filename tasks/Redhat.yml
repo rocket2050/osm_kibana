@@ -4,7 +4,7 @@
   shell: "wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm"
 
 
-- name: installing kibana ...
+- name: Installing kibana ...
   command: rpm -ivh kibana-5.1.1-x86_64.rpm
   ignore_errors: yes
 
@@ -20,7 +20,7 @@
       - epel-release
       - httpd-tools
 
-- name: Installing Nginx dependencies ...
+- name: Installing Nginx ...
   yum: name=nginx state=installed
 
 - name: Starting kibana

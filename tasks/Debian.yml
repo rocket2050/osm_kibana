@@ -4,30 +4,24 @@
   apt_key:
     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch 
     state: present
-#  shell: "wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -"
 
-- name: Installing zabbix server dependencies ...
+- name: Installing dependencies ...
   apt: name={{ item }} state=installed
   with_items:
       - apt-transport-https
 
-#- name: Save the repository
-#  command: echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
-
-#- name: Adding zabbix configuration file ...
-#  template: src=elastic-5.x.list.j2 dest=/etc/apt/sources.list.d/elastic-5.x.list
-- name: Add Logstash repository.
+- name: Add Kibana repository...
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/5.x/apt stable main'
     state: present
   ignore_errors: yes
 
-- name: Run the equivalent of "apt-get update" as a separate step
+- name: Update cache...
   apt:
     update_cache: yes
 
 
-- name: Installing zabbix server dependencies ...
+- name: Installing Kibana and Nginx dependencies ...
   apt: name={{ item }} state=installed
   with_items:
       - kibana
@@ -35,31 +29,31 @@
       - apache2-utils
 
 
-- name: Starting Apache server
+- name: Starting Kibana service...
   service: name=kibana state=started
 
-- name: Install passlib (required for writing htpasswd file).
+- name: Install passlib (required for writing htpasswd file)...
   apt:
     name: python-passlib
     state: present
 
-- name: Remove old files foo
+- name: Remove old files...
   file: path=/etc/nginx/sites-available/default state=absent
 
-- name: Create htpasswd file to restrict access to Kibana web interface.
+- name: Create htpasswd file to restrict access to Kibana web interface...
   htpasswd:
     name: "{{ elk_kibana_username }}"
     password: "{{ elk_kibana_password }}"
     path: /etc/nginx/htpasswd.users
   
 
-- name: Adding zabbix configuration file ...
+- name: Adding Nginx configuration file ...
   template: src=default.j2 dest=/etc/nginx/sites-available/default
 
-- name: Starting Apache server
+- name: Starting Kibana service...
   service: name=kibana state=started
 
 
-- name: Starting Apache server
+- name: Starting Nginx server
   service: name=nginx state=started
 
