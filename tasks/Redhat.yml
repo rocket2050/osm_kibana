@@ -1,18 +1,23 @@
 ---
+- name: checking kibana already installed...
+  stat: path=/etc/kibana
+  register: kibana 
 
 - name: Downloading kibana package ...
-  shell: "wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm"
+  get_url:
+    url: https://artifacts.elastic.co/downloads/kibana/kibana-5.1.1-x86_64.rpm
+    dest: /root/
+  when: not kibana.stat.exists
 
 
 - name: Installing kibana ...
-  command: rpm -ivh kibana-5.1.1-x86_64.rpm
-  ignore_errors: yes
+  yum:
+    name: kibana-5.1.1-x86_64.rpm
+    state: present
+  when: not kibana.stat.exists
 
 - name: Adding kibana configuration file ...
   template: src=kibana.yml.j2 dest=/etc/kibana/kibana.yml
-
-- name: Start service kibana
-  service: name=kibana state=started enabled=yes
 
 - name: Installing Nginx dependencies ...
   yum: name={{ item }} state=installed
@@ -20,17 +25,16 @@
       - epel-release
       - httpd-tools
 
+
 - name: Installing Nginx ...
   yum: name=nginx state=installed
 
-- name: Starting kibana
-  service: name=kibana state=started
-
 - name: Adding nginx configuration file ...
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf 
 
 - name: Adding nginx configuration file ...
   template: src=default.j2 dest=/etc/nginx/conf.d/kibana.conf
+
  
 - name: Install passlib (required for writing htpasswd file).
   yum:

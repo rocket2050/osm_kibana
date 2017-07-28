@@ -21,10 +21,16 @@
     update_cache: yes
 
 
+- stat: path=/etc/kibana
+  register: kibana
+
+- name: Installing Kibana
+  apt: name=kibana state=installed
+  when: not kibana.stat.exists
+
 - name: Installing Kibana and Nginx dependencies ...
   apt: name={{ item }} state=installed
   with_items:
-      - kibana
       - nginx
       - apache2-utils
 
