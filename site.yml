@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ host }}"
+- hosts: kibana
   roles:
-    - { role: "kibana" }
+    - { role: "osm_kibana" }
  
