@@ -1,7 +1,7 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Role to Install Kibana on Debian and RedHat.
 
 Requirements
 ------------
