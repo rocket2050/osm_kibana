@@ -1,5 +1,5 @@
 ---
 - hosts: kibana
   roles:
-    - { role: "osm_kibana" }
+    - { role: "/var/lib/awx/projects/_6__kibana" }
  
