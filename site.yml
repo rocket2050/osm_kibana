@@ -1,5 +1,5 @@
 ---
-- hosts: kibana
+- hosts: all
   roles:
     - { role: "/var/lib/awx/projects/_6__kibana" }
  
