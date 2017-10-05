@@ -12,7 +12,7 @@
 
 - name: Installing kibana ...
   yum:
-    name: kibana-5.1.1-x86_64.rpm
+    name: /root/kibana-5.1.1-x86_64.rpm
     state: present
   when: not kibana.stat.exists
 
