@@ -4,11 +4,11 @@
 - name: Start kibana
   service: name=kibana state=started
 
-- name: Start kibana
+- name: Restart kibana
   service: name=kibana state=restarted
 
-- name: Start kibana
+- name: Start nginx
   service: name=nginx state=started
 
-- name: Start kibana
+- name: Restart nginx
   service: name=nginx state=restarted
