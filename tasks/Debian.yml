@@ -20,7 +20,6 @@
   apt:
     update_cache: yes
 
-
 - stat: path=/etc/kibana
   register: kibana
 
@@ -33,7 +32,6 @@
   with_items:
       - nginx
       - apache2-utils
-
 
 - name: Starting Kibana service...
   service: name=kibana state=started
@@ -60,7 +58,6 @@
 
 - name: Starting Kibana service...
   service: name=kibana state=started
-
 
 - name: Starting Nginx server
   service: name=nginx state=started

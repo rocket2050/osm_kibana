@@ -25,7 +25,6 @@
       - epel-release
       - httpd-tools
 
-
 - name: Installing Nginx ...
   yum: name=nginx state=installed
 
