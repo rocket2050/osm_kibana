@@ -9,7 +9,6 @@
     dest: /root/
   when: not kibana.stat.exists
 
-
 - name: Installing kibana ...
   yum:
     name: /root/kibana-5.1.1-x86_64.rpm
@@ -33,7 +32,6 @@
 
 - name: Adding nginx configuration file ...
   template: src=default.j2 dest=/etc/nginx/conf.d/kibana.conf
-
  
 - name: Install passlib (required for writing htpasswd file).
   yum:
@@ -48,7 +46,6 @@
 
 - name: Starting Kibana service
   service: name=kibana state=started
-
 
 - name: Starting Nginx server
   service: name=nginx state=started
