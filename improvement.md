@@ -1,6 +1,6 @@
 # Improvements
 
-Improvements needs to be done in osm_kibana role
+Improvements needs to be done in [osm_kibana](https://github.com/opstree-ansible/osm_kibana) role
 
 * Must check is Nginx is already installed or not.
 * Packages must be installed in a single task.
