@@ -14,10 +14,10 @@ Available variables are listed below, along with default values(see vars/mail.ym
 
 # vars file for kibana
 
-elk_kibana_username: "admin"
-elk_kibana_password: "admin"
-Elasticsearch_ip: ""
-Kibana_server_ip: ""
+  elk_kibana_username: "admin"
+  elk_kibana_password: "admin"
+  Elasticsearch_ip: ""
+  Kibana_server_ip: ""
 
 
 Dependencies
