@@ -6,45 +6,42 @@
     state: present
 
 - name: Installing dependencies ...
-  apt: name={{ item }} state=installed
+  apt: name={{ item }} state=present
   with_items:
       - apt-transport-https
+      - apache2-utils
 
 - name: Add Kibana repository...
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/5.x/apt stable main'
     state: present
-#  ignore_errors: yes
+  ignore_errors: yes
 
 - name: Update cache...
   apt:
     update_cache: yes
 
-
-- stat: path=/etc/kibana
+- name: Determine if a path exists and is a directory
+  stat: path=/etc/kibana
   register: kibana
 
 - name: Installing Kibana
   apt: name=kibana state=installed
   when: not kibana.stat.exists
 
+- name: Determine if a path exists and is a directory
+  stat: path=/etc/nginx
+  register: nginx
+
 - name: Installing Kibana and Nginx dependencies ...
-  apt: name={{ item }} state=installed
-  with_items:
-      - nginx
-      - apache2-utils
-
-
-- name: Starting Kibana service...
-  service: name=kibana state=started
+  apt: name=nginx state=installed
+  when: not nginx.stat.exists
+  notify: Start kibana service
 
 - name: Install passlib (required for writing htpasswd file)...
   apt:
     name: python-passlib
     state: present
-
-- name: Remove old files...
-  file: path=/etc/nginx/sites-available/default state=absent
 
 - name: Create htpasswd file to restrict access to Kibana web interface...
   htpasswd:
@@ -57,11 +54,7 @@
 
 - name: Adding Nginx configuration file ...
   template: src=default.j2 dest=/etc/nginx/sites-available/default
-
-- name: Starting Kibana service...
-  service: name=kibana state=started
-
-
-- name: Starting Nginx server
-  service: name=nginx state=started
+  notify:
+    - Restart kibana service
+    - Restart nginx service
 
