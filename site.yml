@@ -2,5 +2,5 @@
 - hosts: all
   become: true
   roles:
-    - { role: "/var/lib/awx/projects/_7__kibana" }
+    - { role: "/var/lib/awx/projects/_7__osm_kibana" }
  
