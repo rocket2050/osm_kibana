@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- hosts: kibana
+  become_user: vagrant
   become: true
   roles:
     - { role: "/var/lib/awx/projects/_7__osm_kibana" }
