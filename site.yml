@@ -3,5 +3,5 @@
   become_user: vagrant
   become: true
   roles:
-    - { role: "/var/lib/awx/projects/_7__osm_kibana" }
+    - { role: "/var/lib/awx/projects/_6__osm_kibana" }
  
