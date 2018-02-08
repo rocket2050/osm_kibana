@@ -11,20 +11,23 @@
       - apt-transport-https
 
 - name: Add Kibana repository...
+#  templete: src=kibana.list.j2 dest=/etc/apt/source.list.d/kibana.list
   apt_repository:
-    repo: 'deb https://artifacts.elastic.co/packages/5.x/apt stable main'
+    repo: 'deb https://artifacts.elastic.co/packages/{{ kibana_version }}.x/apt stable main'
     state: present
-#  ignore_errors: yes
 
 - name: Update cache...
-  apt:
+  apt: 
     update_cache: yes
+    cache_valid_time: 86400 
+  tags:
+    - test
 
 - stat: path=/etc/kibana
   register: kibana
 
 - name: Installing Kibana
-  apt: name=kibana state=installed
+  apt: name=kibana state=installed 
   when: not kibana.stat.exists
 
 - name: Installing Kibana and Nginx dependencies ...
@@ -32,9 +35,9 @@
   with_items:
       - nginx
       - apache2-utils
-
-- name: Starting Kibana service...
-  service: name=kibana state=started
+  notify:
+    - Start kibana
+    - Start nginx
 
 - name: Install passlib (required for writing htpasswd file)...
   apt:
@@ -52,13 +55,10 @@
   
 - name: Adding Nginx configuration file ...
   template: src=kibana.yml.j2 dest=/etc/kibana/kibana.yml
+  notify:
+    - Restart kibana
 
 - name: Adding Nginx configuration file ...
   template: src=default.j2 dest=/etc/nginx/sites-available/default
-
-- name: Starting Kibana service...
-  service: name=kibana state=started
-
-- name: Starting Nginx server
-  service: name=nginx state=started
-
+  notify:
+    - Restart nginx

@@ -1,3 +1,13 @@
+osm_kibana
+----------
+This repo is configuring kibana which is accessed by nginx for mutil version OS. This repo by default install kibana 5 but can be dynamic by passing extra-vars or changing the values in vars/main.yml
+
+Supported OS
+------------
+redhat6/7
+centos6/7
+ubuntu14/16
+
 Role Name
 =========
 
@@ -16,7 +26,7 @@ Available variables are listed below, along with default values(see vars/mail.ym
 
 elk_kibana_username: "admin"
 
-elk_kibana_password: "admin"
+elk_kibana_password: "admin@kibana"
 
 Elasticsearch_ip: ""
 
