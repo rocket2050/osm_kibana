@@ -1,4 +1,2 @@
 [kibana]
-#ubuntu14
-centos6
-#centos7
+127.0.0.1
