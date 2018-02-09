@@ -1,6 +1,6 @@
 osm_kibana
 ----------
-This repo is configuring kibana which is accessed by nginx for mutil version OS. This repo by default install kibana 6 but can be dynamic by passing extra-vars or changing the values in vars/main.yml
+This repo is configuring kibana which is accessed by nginx for mutil version OS. This repo by default install kibana 6 but can be dynamic by passing extra-vars or changing the values in ```vars/main.yml```
 
 Supported OS
 ------------
