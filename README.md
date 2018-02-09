@@ -1,6 +1,6 @@
 osm_kibana
 ----------
-This repo is configuring kibana which is accessed by nginx for mutil version OS. This repo by default install kibana 5 but can be dynamic by passing extra-vars or changing the values in vars/main.yml
+This repo is configuring kibana which is accessed by nginx for mutil version OS. This repo by default install kibana 6 but can be dynamic by passing extra-vars or changing the values in vars/main.yml
 
 Supported OS
 ------------
@@ -15,12 +15,12 @@ A brief description of the role goes here.
 
 Requirements
 ------------
-None
+The only requirment is python installed on host machine
 
 Role Variables
 --------------
 
-Available variables are listed below, along with default values(see vars/mail.yml):
+Available variables are listed below, along with default values(see vars/mail.yml):https://github.com/opstree-ansible/osm_kibana/blob/master/vars/main.yml
 
 # vars file for kibana
 
