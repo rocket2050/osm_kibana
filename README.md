@@ -25,7 +25,7 @@ The only requirment is python-common-software-properties in Debian based Operati
 Role Variables
 --------------
 
-Available variables are listed below, along with default values[vars](https://github.com/opstree-ansible/osm_kibana/blob/master/vars/main.yml)
+Available variables are listed below, along with default values [vars](https://github.com/opstree-ansible/osm_kibana/blob/master/vars/main.yml)
 
 
 Dependencies
