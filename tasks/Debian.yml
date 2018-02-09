@@ -11,7 +11,6 @@
       - apt-transport-https
 
 - name: Add Kibana repository...
-#  templete: src=kibana.list.j2 dest=/etc/apt/source.list.d/kibana.list
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/{{ kibana_version }}.x/apt stable main'
     state: present
@@ -23,12 +22,9 @@
   tags:
     - test
 
-- stat: path=/etc/kibana
-  register: kibana
 
 - name: Installing Kibana
   apt: name=kibana state=installed 
-  when: not kibana.stat.exists
 
 - name: Installing Kibana and Nginx dependencies ...
   apt: name={{ item }} state=installed
