@@ -1,2 +1,5 @@
 [kibana]
 ubuntu14
+ubuntu16
+centos6
+centos7
