@@ -11,7 +11,6 @@
   get_url:
     url: https://artifacts.elastic.co/downloads/kibana/kibana-{{ kibana_version_rpm }}-x86_64.rpm
     dest: /root/
-  when: not kibana.stat.exists
 
 - name: Installing kibana ...
   yum:
@@ -31,10 +30,6 @@
   yum: name=nginx state=installed
   notify:
     - Start nginx
-
-- name: Create dependent dir ...
-  file: path=/etc/nginx/conf.d state=directory
-  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7'
 
 - name: Enable nginx configuration 
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf 
