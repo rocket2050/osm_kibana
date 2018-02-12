@@ -22,7 +22,6 @@
   tags:
     - test
 
-
 - name: Installing Kibana
   apt: name=kibana state=installed 
 
